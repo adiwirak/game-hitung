@@ -1,26 +1,30 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {  BrowserRouter,  Route, Switch } from 'react-router-dom';
+import { Provider } from "react-redux";
+
+import MainHome  from './pages/pg_home.js';
+import PgLogin  from './pages/pg_login.js';
+import PgPlay  from './pages/pg_play.js';
+import Pghasil from './pages/pg_hasil.js';
+
+import DataStoreku  from './globalstore/start_store.js';
+
+
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Provider store={ DataStoreku }>
+      <BrowserRouter>
+        <Switch>
+          <Route path='/play:idx' component={PgPlay} />          
+          <Route path='/play' component={PgPlay} />          
+          <Route path='/hasilakhir' component={Pghasil} />          
+          <Route path='/login' component={PgLogin} />          
+          <Route path='/' component={MainHome} />
+        </Switch>
+      </BrowserRouter>
+      </Provider>
     );
   }
 }
