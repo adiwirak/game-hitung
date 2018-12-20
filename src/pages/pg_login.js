@@ -42,19 +42,10 @@ class PgLogin extends Component {
     this.props.ubahSemuaTtgUser(objData,(x)=>this.AfterLogin(x));
   }
 
-  IsiInput(Obj,mode){
+  IsiInput(Obj,field){
     let Nilai=Obj.target.value;
     //console.log(Nilai)
-    switch(mode){
-      case 1:
-        this.setState({namapemain: Nilai}) 
-        break;
-      case 2:
-        this.setState({email: Nilai}) 
-        break;
-      default:
-        this.setState({nohp: Nilai});
-    }
+    this.setState({[field]: Nilai});
   }
   
   ValidasiIsiInput(mode){
@@ -111,7 +102,7 @@ class PgLogin extends Component {
               <div className="control">
                   <input ref="Username" className="input" value={this.state.namapemain}
                   autoFocus
-                  onChange={(x)=>this.IsiInput(x,1)}
+                  onChange={(x)=>this.IsiInput(x,"namapemain")}
                   onKeyPress ={(x)=>this.handleKeyPress(x,2)}
                   type="text"  placeholder="Masukkan yg benar ya..."/>
                   {this.ValidasiIsiInput(1)}
@@ -123,7 +114,7 @@ class PgLogin extends Component {
               <div className="control">
                   <input ref="email" className="input" value={this.state.email}
                   onKeyPress={(x)=>this.handleKeyPress(x,3)}
-                  onChange={(x)=>this.IsiInput(x,2)} type="text" placeholder="Contoh: jhony_sayang@gmail.com" />
+                  onChange={(x)=>this.IsiInput(x,"email")} type="text" placeholder="Contoh: jhony_sayang@gmail.com" />
                   {this.ValidasiIsiInput(2)}
               </div>
             </div>   
@@ -132,7 +123,7 @@ class PgLogin extends Component {
               <div className="control">
                   <input ref="nohp" className="input" value={this.state.nohp}
                   onKeyPress={(x)=>this.handleKeyPress(x,4)}
-                  onChange={(x)=>this.IsiInput(x,3)} type="text" placeholder="Contoh: 08xxxx" />
+                  onChange={(x)=>this.IsiInput(x,"nohp")} type="text" placeholder="Contoh: 08xxxx" />
                   {this.ValidasiIsiInput(3)}
               </div>
             </div>   
@@ -154,7 +145,7 @@ class PgLogin extends Component {
     }else{
       let Str1=(this.props.App.Msg==="") ? "Let's Go to Play" : this.props.App.Msg+" / Retry";
       return(<button ref="BSaveUser" className="button is-success is-rounded"
-        onClick={()=>this.KlikDaftarXP()}>{Str1}...</button>
+        onClick={(x)=>this.KlikDaftarXP()}>{Str1}...</button>
       )
     }
   }
@@ -165,11 +156,12 @@ function SaatLogin(objData,OnSukses){
 
    dispatch(AksiApp.ubahLoading(true,""))
       
-   axios.post("http://www.robotrapor.com/api/testlogin.php",objData)
+    //axios.post("http://www.robotrapor.com/api/testlogin.php",objData)
+    axios.post("https://reqres.in/api/users",objData)
     .then(resp =>{
       console.log(resp)
-      objData.sdh_daftar=resp.data.bisamain;
-      objData.ippemain=resp.data.iploc;
+      objData.sdh_daftar=true;//resp.data.bisamain;
+      objData.ippemain="192.168.0.1";//resp.data.iploc;
       //----------
       dispatch(AksiUser.ubahSemuaTtgUser(objData))
       dispatch(AksiApp.ubahLoading(false,""))
