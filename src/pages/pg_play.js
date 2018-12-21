@@ -63,7 +63,7 @@ class PgPlay extends Component {
     let jawaban_soal=N1+N2; 
     let Pilihan=[]
     let i;
-    for(i=-1; i<3; i++) Pilihan.push(i*(Math.floor(Math.random() * 10 )+1)+jawaban_soal)
+    for(i=-1; i<3; i++) Pilihan.push(i*(1 + Math.floor(Math.random() * 5 ))+jawaban_soal)
     let Acak=Math.floor(Math.random() * Pilihan.length );
     if(Acak!==1){
       i=Pilihan[Acak];
